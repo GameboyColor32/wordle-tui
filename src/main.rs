@@ -1,5 +1,7 @@
 mod game;
 
+use crate::game::Word;
+
 fn main() {
     let game = game::Game::new("hello".to_string());
 
@@ -10,8 +12,10 @@ fn main() {
         }
     }
 
-    let word = game::Word::new("hello");
-    let word = game::Word::new("h2llo");
-    let word = game::Word::new("helLo");
-
+    let word = Word::new("hello");
+    println!("{:?}", word);
+    let word = Word::new("h2llo");
+    println!("{:?}", word);
+    let word = Word::new("helLo");
+    println!("{:?}", word);
 }
