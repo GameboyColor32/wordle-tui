@@ -19,7 +19,8 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(word: impl Into<String>) -> Result<Self, &'static str> {
+    pub fn new(word: impl Into<String>) -> Result<Self, &'static str> { // todo replace static str
+        // with own errors
         let word = Word::new(word)?;
 
         Ok(Self {
