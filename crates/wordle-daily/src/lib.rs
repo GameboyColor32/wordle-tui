@@ -1,14 +1,25 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+use std::path::PathBuf;
+use chrono::NaiveDate;
+
+pub struct Cache {
+    pub directory: PathBuf,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl Cache {
+    pub async fn load(&self, date: NaiveDate) { // -> Result<Option<Puzzle>, DailyError> {
+        let formatted_date = date.format("%Y-%m-%d");
+        println!("{}", formatted_date);
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        if self.directory.push(format!("{}.json", formatted_date)).exists() {
+            todo!("return game (inverse this condition next tine)")
+        }
+        todo!("fetch word of the day")
     }
 }
+
+/*
+pub struct DailyWordle {
+    word: Arc<>
+}
+*/
+

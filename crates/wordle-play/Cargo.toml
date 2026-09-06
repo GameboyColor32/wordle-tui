@@ -6,3 +6,8 @@ rust-version.workspace = true
 authors.workspace = true
 
 [dependencies]
+chrono = "0.4.45"
+tokio = { version = "1", features = ["macros", "rt"] }
+
+wordle-daily.workspace = true
+
