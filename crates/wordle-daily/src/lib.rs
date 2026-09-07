@@ -1,14 +1,19 @@
 mod error;
 mod nyt;
+mod provider;
 mod puzzle;
+mod fallback;
 
 use std::path::PathBuf;
 
 use chrono::NaiveDate;
+use tokio::fs::{create_dir_all, try_exists, write};
 
 use crate::puzzle::Puzzle;
+use crate::fallback::FallbackProvider;
+use crate::provider::PuzzleProvider;
 use crate::error::DailyError;
-use crate::nyt::fetch_nyt;
+use crate::nyt::NytProvider;
 
 pub struct Cache {
     directory: PathBuf,
@@ -25,16 +30,29 @@ impl Cache {
         self.directory.join(format!("{}.json", date.format("%Y-%m-%d")))
     }
 
-    pub async fn load(&self, date: NaiveDate) -> Result<Option<Puzzle>, DailyError> {
+    pub async fn load(&self, date: NaiveDate) -> Result<Puzzle, DailyError> {
         let path = self.path_for(date);
 
-        println!("{}", path.display());
-        if !path.exists() {
-            let word = fetch_nyt(date.format("%Y-%m-%d").to_string()).await?;
-
-            println!("{:?}", word);
+        if !try_exists(&self.directory).await? {
+            println!("INFO: {} doesn't exist, creating...", &self.directory.display());
+            create_dir_all(&self.directory).await?;
         }
-        todo!("fetch word of the day")
+        if !try_exists(&path).await? {
+            let str_date = date.format("%Y-%m-%d").to_string();
+
+            let puzzle = match NytProvider::fetch(str_date.clone()).await {
+                Ok(puzzle) => puzzle,
+                Err(err) => {
+                    eprintln!("ERROR {err:?}: using fallback...",);
+                    FallbackProvider::fetch(str_date).await?
+                }
+            };
+            let json = serde_json::to_vec_pretty(&puzzle)?;
+            write(&path, json).await?;
+            println!("INFO: daily wordle saved at {}", path.display());
+            return Ok(puzzle);
+        }
+        todo!("Read word of the day")
     }
 }
 
