@@ -9,7 +9,7 @@ use std::path::PathBuf;
 use chrono::NaiveDate;
 use tokio::fs::{create_dir_all, try_exists, write, read};
 
-use crate::puzzle::Puzzle;
+use crate::puzzle::PuzzleRecord;
 use crate::fallback::FallbackProvider;
 use crate::provider::PuzzleProvider;
 use crate::error::DailyError;
@@ -30,7 +30,7 @@ impl Cache {
         self.directory.join(format!("{}.json", date.format("%Y-%m-%d")))
     }
 
-    pub async fn load(&self, date: NaiveDate) -> Result<Puzzle, DailyError> {
+    pub async fn load(&self, date: NaiveDate) -> Result<PuzzleRecord, DailyError> {
         let path = self.path_for(date);
 
         if !try_exists(&self.directory).await? {
@@ -53,7 +53,7 @@ impl Cache {
             return Ok(puzzle);
         }
         let bytes = read(&path).await?;
-        let puzzle = serde_json::from_slice::<Puzzle>(&bytes)?;
+        let puzzle = serde_json::from_slice::<PuzzleRecord>(&bytes)?;
         println!("INFO: daily wordle read from {}", path.display());
 
         Ok(puzzle)

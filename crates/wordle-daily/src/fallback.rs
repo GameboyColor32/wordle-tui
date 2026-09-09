@@ -1,13 +1,13 @@
 use crate::provider::PuzzleProvider;
 use crate::error::DailyError;
-use crate::puzzle::Puzzle;
+use crate::puzzle::PuzzleRecord;
 
 const WORDS: &str = include_str!("../data/words.txt");
 
 pub(crate) struct FallbackProvider;
 
 impl PuzzleProvider for FallbackProvider {
-    async fn fetch(date: impl Into<String>) -> Result<Puzzle, DailyError> {
+    async fn fetch(date: impl Into<String>) -> Result<PuzzleRecord, DailyError> {
         let date = date.into();
         let seed: usize = date
             .bytes()
@@ -21,7 +21,7 @@ impl PuzzleProvider for FallbackProvider {
             .to_owned();
 
         Ok(
-            Puzzle {
+            PuzzleRecord {
                 id: seed as u64,
                 solution,
             }

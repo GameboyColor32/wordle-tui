@@ -6,7 +6,7 @@ pub struct Word {
 }
 
 impl Word {
-    pub fn new(word: impl Into<String>) -> Result<Self, &'static str> {
+    pub fn new(word: impl Into<String>) -> Result<Self, CoreError> {
         word.into().try_into()
     }
 }
@@ -16,10 +16,10 @@ impl TryFrom<String> for Word {
 
     fn try_from(word: String) -> Result<Self, Self::Error> {
         if word.chars().count() != 5 {
-            return Err("String must be 5 chars");
+            return Err(CoreError::InvalidWordLength { actual: length });
         }
         if !word.chars().all(|c| c.is_ascii_alphabetic()) {
-            return Err("String must be alphabetic");
+            return Err(CoreError::InvalidCharacter);
         }
         Ok(Self{letters: std::array::from_fn(|i| {
             word.chars().nth(i).unwrap().to_string().to_uppercase()

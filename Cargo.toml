@@ -11,4 +11,7 @@ repository = "https://github.com/GameboyColor32/wordle-tui"
 license = "MIT"
 
 [workspace.dependencies]
+thiserror = "2.0.20"
+
 wordle-daily = { path = "crates/wordle-daily" }
+

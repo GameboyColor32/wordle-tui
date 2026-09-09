@@ -8,5 +8,4 @@ pub enum DailyError {
 
     #[error("failed to serialize puzzle")]
     Json(#[from] serde_json::Error)
-
 }
