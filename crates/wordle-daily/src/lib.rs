@@ -7,7 +7,7 @@ mod fallback;
 use std::path::PathBuf;
 
 use chrono::NaiveDate;
-use tokio::fs::{create_dir_all, try_exists, write};
+use tokio::fs::{create_dir_all, try_exists, write, read};
 
 use crate::puzzle::Puzzle;
 use crate::fallback::FallbackProvider;
@@ -52,12 +52,11 @@ impl Cache {
             println!("INFO: daily wordle saved at {}", path.display());
             return Ok(puzzle);
         }
-        todo!("Read word of the day")
+        let bytes = read(&path).await?;
+        let puzzle = serde_json::from_slice::<Puzzle>(&bytes)?;
+        println!("INFO: daily wordle read from {}", path.display());
+
+        Ok(puzzle)
     }
 }
 
-/*
-pub struct DailyWordle {
-    word: Arc<>
-}
-*/
