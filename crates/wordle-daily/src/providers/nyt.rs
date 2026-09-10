@@ -1,6 +1,6 @@
 use reqwest;
 
-use crate::provider::PuzzleProvider;
+use super::provider::PuzzleProvider;
 use crate::error::DailyError;
 use crate::puzzle::PuzzleRecord;
 

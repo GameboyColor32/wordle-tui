@@ -1,8 +1,8 @@
-use crate::provider::PuzzleProvider;
+use super::provider::PuzzleProvider;
 use crate::error::DailyError;
 use crate::puzzle::PuzzleRecord;
 
-const WORDS: &str = include_str!("../data/words.txt");
+const WORDS: &str = include_str!("../../data/words.txt");
 
 pub(crate) struct FallbackProvider;
 

@@ -1,8 +1,7 @@
 mod error;
-mod nyt;
-mod provider;
 mod puzzle;
-mod fallback;
+
+pub(crate) mod providers;
 
 use std::path::PathBuf;
 
@@ -10,10 +9,13 @@ use chrono::NaiveDate;
 use tokio::fs::{create_dir_all, try_exists, write, read};
 
 use crate::puzzle::PuzzleRecord;
-use crate::fallback::FallbackProvider;
-use crate::provider::PuzzleProvider;
 use crate::error::DailyError;
-use crate::nyt::NytProvider;
+
+use providers::{
+    NytProvider,
+    FallbackProvider,
+    PuzzleProvider,
+};
 
 pub struct Cache {
     directory: PathBuf,
