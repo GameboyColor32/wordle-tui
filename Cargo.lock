@@ -1685,7 +1685,12 @@ dependencies = [
  "serde_json",
  "thiserror",
  "tokio",
+ "wordle-lexicon",
 ]
+
+[[package]]
+name = "wordle-lexicon"
+version = "0.1.0"
 
 [[package]]
 name = "wordle-play"

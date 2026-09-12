@@ -12,7 +12,7 @@ impl Word {
 }
 
 impl TryFrom<String> for Word {
-    type Error =  &'static str;
+    type Error = CoreError;
 
     fn try_from(word: String) -> Result<Self, Self::Error> {
         if word.chars().count() != 5 {

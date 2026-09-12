@@ -7,6 +7,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = Local::now().date_naive();
     let cache = Cache::new("./cache");
 
-    let _ = cache.load(date).await;
+    let puzzle = cache.load(date).await;
     Ok(())
 }

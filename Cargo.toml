@@ -14,4 +14,4 @@ license = "MIT"
 thiserror = "2.0.20"
 
 wordle-daily = { path = "crates/wordle-daily" }
-
+wordle-lexicon = { path = "crates/wordle-lexicon" }
