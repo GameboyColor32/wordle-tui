@@ -9,3 +9,4 @@ rust-version.workspace = true
 [dependencies]
 thiserror.workspace = true
 
+wordle-lexicon.workspace = true

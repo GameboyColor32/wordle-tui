@@ -11,3 +11,4 @@ pub enum CoreError {
 
     #[error("not a valid word")]
     InvalidWord,
+}
